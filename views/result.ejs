@@ -1,0 +1,9 @@
+<h1>This is the Result Page</h1>
+
+<a href="/">Search Again!</a>
+<% data['Search'].forEach(function(movie){ %>
+    <p>
+        <img src="<%= movie['Poster'] %>" alt="poster">
+        <%= movie['Title'] %>
+    </p>
+<% }) %>
