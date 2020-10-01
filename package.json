@@ -4,7 +4,7 @@
   "description": "A movie review web application using Nodejs and Open Moviedb API.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "env-cmd ./config/dev.env nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -18,8 +18,12 @@
   "homepage": "https://github.com/yash7047/Movie-App#readme",
   "dependencies": {
     "ejs": "^3.1.5",
+    "env-cmd": "^8.0.2",
     "express": "^4.17.1",
+    "mongoose": "^5.10.7",
+    "nodemon": "^2.0.4",
     "path": "^0.12.7",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "validator": "^13.1.17"
   }
 }
