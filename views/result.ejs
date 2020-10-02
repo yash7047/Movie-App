@@ -1,30 +1,81 @@
-<h1>This is the Result Page</h1>
+<%- include('header') -%>
 
-<a href="/">Search Again!</a>
-
-<%= JSON.stringify(data.Title) %>
-
- <img src="<%= data.Poster %>" alt="Poster"> 
-
-<form method="POST" onsubmit="return doComment(this);">
-   
-    <input type="hidden" name="post_id" value="<%= data.imdbID %>"/>
-    <div class="form-group">
-        <input class="form-control" name="username">
+<div class="px-md-5 py-3 container">
+    <div class="row mb-3">
+        <h3> Search Result </h3>
     </div>
-    <div class="form-group">
-        <textarea class="form-control" name="comment" rows="3"></textarea>
+
+    <!-- Movie Card Row -->
+    <div class="row mb-3">
+        <div class="col-12">
+
+            <!-- Movie Card -->
+            <div class="card">
+                <div class="row justify-content-center">
+                    <div class="py-4 px-5 col-12 col-md-6">
+                        <p>Title:       <%= data.Title %></p>
+                        <p>Year:        <%= data.Year %></p>
+                        <p>Rated:       <%= data.Rated %></p>
+                        <p>Genre:       <%= data.Genre %></p>
+                        <p>Actors:      <%= data.Actors %></p>
+                        <p>Language:    <%= data.Language %></p>
+                        <p>Plot:        <%= data.Plot %></p>
+                        <p>Awards:      <%= data.Awards %></p>
+                        <p>Imdb:      <%= data.imdbRating %></p>
+
+                    </div>
+                    <div class="p-2 col-12 col-md-6 text-center">
+                        <% if(data.Poster != 'N/A') { %>
+                            <img class="img-fluid" src="<%= data.Poster %>" alt="movie poster">
+                        <%} else {%>
+                            <!-- Show dummy image if there is no poster -->
+                            <img class="img-fluid" src="https://picsum.photos/300/400" alt="poster N/A">
+                        <%} %>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <button type="submit">Submit</button>
-</form>
-<!-- onsubmit="return doComment(this);" -->
+
+    <!-- Comment Section-->
+    <div class="mt-1 row">
+        <div class="col-12 mb-2">
+            <h6>Comment Section</h6>
+        </div>
+        <div class="col-12 mb-3">
+            <!--  -->
+            <form method="POST" onsubmit="return doComment(this);">
+
+                <input type="hidden" name="post_id" value="<%= data.imdbID %>" />
+
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" name="comment" rows="3" col="5"
+                        placeholder="Write comment here"></textarea>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Ajax to handle comments -->
 <script>
-    function doComment(form){
+    function doComment(form) {
         $.ajax({
-            url:"/do-comment",
-            method:"POST",
-            data:{username:form.username.value,comment:form.comment.value,post_id:form.post_id.value},
-            success:function(response){
+            url: "/do-comment",
+            method: "POST",
+            data: {
+                username: form.username.value,
+                comment: form.comment.value,
+                post_id: form.post_id.value
+            },
+            success: function (response) {
                 alert(response)
             }
         });
@@ -34,8 +85,10 @@
 
 <% if(data.comment) { %>
 <% data.comment.forEach(function(cooment){ %>
-    <%= comment.username %>
-    <%= comment.comment %>
-   <% }) %>
+<%= comment.username %>
+<%= comment.comment %>
+<% }) %>
 
 <% } %>
+
+<%- include('footer') -%>
