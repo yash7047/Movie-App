@@ -5,10 +5,17 @@ const Movie = require('./model.js');
 const { render } = require('ejs');
 const { isValidObjectId } = require('mongoose');
 
-require('./mongoose.js')
+require('./mongoose.js');
 
+var bodyParser = require('body-parser');
+var app = express();
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 const port = process.env.PORT || 3000;
-const app = express();
 
 const view_path = path.join(__dirname, 'views')
 const public_path = path.join(__dirname, 'public')
@@ -31,8 +38,9 @@ app.get('/results', (req, res) => {
     request(url, (error, response, body) => {
         if (!error && response.statusCode === 200) {
             var data = JSON.parse(body);
-            //    value=JSON.parse(body);
-            res.render('result', { data: data });
+            res.render('result', {
+                data: data
+            });
         } else {
             console.log(error);
             console.log(response.statusCode);
@@ -44,7 +52,7 @@ app.get('/results', (req, res) => {
 app.post("/do-comment", (req, res) => {
     var data = req.body;
     console.log(data);
-    res.send("comment successful")
+    res.send(data);
 })
 
 app.listen(port, () => {
