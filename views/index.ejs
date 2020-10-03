@@ -1,6 +1,20 @@
-<h1>This is the Search Page.</h1>
+<%- include('header') -%>
 
-<form action="/results" method="get">
-    <input type="text" name="search" placeholder="Write movie title">
-    <button type="submit">Search</button>
-</form>
+<div class="p-md-5 container align-items-center" style="width: 50%;">
+    <div class="row">
+        <div class="mb-3 col-12 text-center">
+            <h3> Search a movie to read or give review </h3>
+        </div>
+        <!-- Search Form -->
+        <div class="col-12">
+            <form action="/results" method="get">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="search" placeholder="Type a movie name">
+                    <button class="btn btn-outline-primary btn-md" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('footer') -%>
