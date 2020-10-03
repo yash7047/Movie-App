@@ -17,4 +17,28 @@
     </div>
 </div>
 
+<div class="container-fluid">
+    <h2 class="py-4" style="text-decoration: underline">Trending</h2>
+    <div class="row">
+        <% trend.forEach((movie)=>{ %>
+            <div class="col-xs-6 col-md-4 align-item-center">
+                <img src="<%= movie.image %>" alt="img">
+                <div class="py-4"><%= movie.title %></div>
+            </div>
+        <% }) %>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <h2 class="py-4" style="text-decoration: underline">Recommended By US</h2>
+    <div class="row">
+        <% recommend.forEach((movie)=>{ %>
+            <div class="col-xs-6 col-md-4 align-items-center">
+                <img src="<%= movie.image %>" alt="img">
+                <div class="py-4"><%= movie.title %></div>
+            </div>
+        <% }) %>
+    </div>
+</div>
+
 <%- include('footer') -%>
