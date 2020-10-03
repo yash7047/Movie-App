@@ -44,7 +44,7 @@ var recommend = [
 ];
 
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('index',{trend: trend, recommend: recommend});
 });
 
 
