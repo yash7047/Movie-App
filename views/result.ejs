@@ -44,18 +44,18 @@
         </div>
         <div class="col-12 mb-3">
             <!--  -->
-            <form method="POST" onsubmit="return doComment(this);">
+            <form id="comment-form">
 
-                <input type="hidden" name="post_id" value="<%= data.imdbID %>" />
+                <input type="hidden" name="movie_id" value="<%= data.imdbID %>" />
 
-                <div class="form-group">
+                <div class="mb-2 form-group">
                     <input type="text" class="form-control" name="username" placeholder="Username">
                 </div>
-                <div class="form-group">
+                <div class="mb-2 form-group">
                     <textarea class="form-control" name="comment" rows="3" col="5"
                         placeholder="Write comment here"></textarea>
                 </div>
-                <div class="form-group">
+                <div class="mb-2 form-group">
                     <button class="btn btn-primary" type="submit">Submit</button>
                 </div>
             </form>
@@ -66,21 +66,25 @@
 
 <!-- Ajax to handle comments -->
 <script>
-    function doComment(form) {
+    $("#comment-form").submit(function(e) {
+        e.preventDefault();
+        $form = $(this)[0];
+        // console.log($form);
+        // console.log(data);
         $.ajax({
+            type: "POST",
             url: "/do-comment",
-            method: "POST",
             data: {
-                username: form.username.value,
-                comment: form.comment.value,
-                post_id: form.post_id.value
+                'movie_id': $form.movie_id.value,
+                'username': $form.username.value,
+                'comment': $form.comment.value,
             },
             success: function (response) {
                 alert(response)
             }
         });
-        return false;
-    }
+        // return false;
+    })
 </script>
 
 <% if(data.comment) { %>
