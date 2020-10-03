@@ -1,6 +1,6 @@
 const mongoose=require('mongoose')
-
-mongoose.connect(process.env.url,{
+const db_port = process.env.url || 'mongodb://localhost:27017/movie-app'
+mongoose.connect(db_port,{
     useNewUrlParser:true,
     useCreateIndex:true,
     useFindAndModify:false,
