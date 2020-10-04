@@ -3,6 +3,36 @@
     line-height: 1em;
 }
 
+body {
+    background: linear-gradient(to right, #4568dc, #b06ab3);
+}
+
 .container {
     max-width: 900px !important;
+}
+
+.caption {
+    text-align: center;
+    color: #fff;
+    background: linear-gradient(to right, #4568dc, #b06ab3);
+}
+
+.effect {
+    position: relative;
+    overflow: hidden;
+}
+
+.plot {
+    background-color: #fff;
+    padding: 2rem;
+    position: absolute;
+    right: 0; left: 0;
+    bottom: 0;
+    display: inherit;
+    transform: translateY(100%);
+    transition: transform 0.4s ease-in;
+}
+
+.effect:hover .plot {
+    transform: translateY(0);
 }
