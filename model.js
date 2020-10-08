@@ -1,20 +1,16 @@
-const mongoose=require('mongoose')
-const validator=require('validator')
+const mongoose = require('mongoose')
+const validator = require('validator')
 
-const movieSchema=new mongoose.Schema({
-    id:{
-        type:String,
-        required:true,
-        trim:true,
-    },
-    comment:{
-        type:String,
-        required:true,
-        trim:true,
-        lowercase:true
-    }
+const movieSchema = new mongoose.Schema({
+    _id: String,
+    comments:[
+        {
+            type: mongoose.Schema.Types.ObjectID,
+            ref: "Comment"
+        }
+    ]
 })
 
-const Movie=mongoose.model('movies',movieSchema)
+const Movie = mongoose.model('movies', movieSchema)
 
-module.exports=Movie
+module.exports = Movie
