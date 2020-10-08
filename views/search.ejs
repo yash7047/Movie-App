@@ -1,0 +1,21 @@
+<%- include('header') -%>
+
+<div class="container">
+    <h2 class="py-4">Search Result</h2>
+    <div class="row">
+        <% data["Search"].forEach((movie)=>{ %>
+            <div class="col-sm-6 col-md-3 mb-5">
+                <% if(movie.Poster != 'N/A') { %>
+                    <img class="img-thumbnail" src="<%= movie.Poster %>" alt="movie poster">
+                <%} else {%>
+                    <!-- Show dummy image if there is no poster -->
+                    <img class="img-thumbnail" src="https://picsum.photos/300/400" alt="poster N/A">
+                <% } %>
+                <div class="py-3 caption"><%= movie.Title %></div>
+                <a href="/search/<%= movie.imdbID %>" role="button" class="btn btn-primary">More Info</a>
+            </div>
+        <% }) %>
+    </div>
+</div>
+
+<%- include('footer') -%>

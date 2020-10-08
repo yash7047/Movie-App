@@ -2,6 +2,7 @@ const express = require('express');
 const request = require('request');
 const path = require('path');
 const Movie = require('./model.js');
+const Comment = require('./comment_modal.js');
 const { render } = require('ejs');
 const { isValidObjectId } = require('mongoose');
 
@@ -90,18 +91,14 @@ app.get('/', (req, res) => {
     res.render('index',{trend: trend, recommend: recommend});
 });
 
-
-
-app.get('/results', (req, res) => {
+app.get('/search', (req, res) => {
     var query = req.query.search;
-    var url = `http://www.omdbapi.com/?t=${query}&apikey=3db01401`;
+    var url = `http://www.omdbapi.com/?s=${query}&apikey=3db01401`;
 
     request(url, (error, response, body) => {
         if (!error && response.statusCode === 200) {
             var data = JSON.parse(body);
-            res.render('result', {
-                data: data
-            });
+            res.render('search', {data: data});
         } else {
             console.log(error);
             console.log(response.statusCode);
@@ -110,11 +107,57 @@ app.get('/results', (req, res) => {
 
 });
 
-app.post("/do-comment", (req, res) => {
-    var data = req.body;
-    console.log(data);
-    res.send(data);
-})
+app.get('/search/:id',(req,res)=>{
+    Movie.findById(req.params.id).populate("comments").exec(function(err,mov){
+        if(err) console.log(err);
+        else{
+            var query = req.params.id;
+            var url = `http://www.omdbapi.com/?i=${query}&apikey=3db01401`;
+            request(url,function(error, response, body){
+                if(!error && response.statusCode === 200){
+                    var movie = JSON.parse(body);
+                    res.render('result',{movie: movie, mov: mov});
+                } else {
+                    console.log(error);
+                    console.log(response.statusCode);
+                }
+            });
+        }
+    });
+});
+
+app.post("/search/:id",(req,res)=>{
+    Movie.exists({_id: req.body.movie_id},function(err,result){
+       if(err) throw err;
+       if(result) {
+           Movie.findById(req.params.id).populate("comments").exec(function(err,movie){
+               if(err) throw err;
+               Comment.create({username: req.body.username,comment: req.body.comment},function(err,com){
+                   if(err) throw err;
+                   com.save();
+                   movie.comments.push(com);
+                   movie.save();
+                   //console.log(movie);
+               });
+               res.redirect('back');
+           });
+       } else {
+           Movie.create({_id: req.body.movie_id} ,function(err,movie){
+               if(err) throw err;
+               var temp = {username: req.body.username,comment: req.body.comment};
+               Comment.create(temp ,function(err,com){
+                   if(err) throw err;
+                   com.save();
+                   movie.comments.push(com);
+                   movie.save();
+                   //console.log(movie);
+               });
+               res.redirect('back');
+           });
+       }
+
+    });
+});
 
 app.listen(port, () => {
     console.log(`Server started at http://127.0.0.1:${port}`);

@@ -2,7 +2,7 @@
 
 <div class="px-md-5 py-3 container">
     <div class="row mb-3">
-        <h3> Search Result </h3>
+        <h3> Movie Details </h3>
     </div>
 
     <!-- Movie Card Row -->
@@ -10,50 +10,72 @@
         <div class="col-12">
 
             <!-- Movie Card -->
-            <div class="card">
+            <div class="card" style="color: black">
                 <div class="row justify-content-center">
                     <div class="py-4 px-5 col-12 col-md-6">
-                        <p>Title:       <%= data.Title %></p>
-                        <p>Year:        <%= data.Year %></p>
-                        <p>Rated:       <%= data.Rated %></p>
-                        <p>Genre:       <%= data.Genre %></p>
-                        <p>Actors:      <%= data.Actors %></p>
-                        <p>Language:    <%= data.Language %></p>
-                        <p>Plot:        <%= data.Plot %></p>
-                        <p>Awards:      <%= data.Awards %></p>
-                        <p>Imdb:      <%= data.imdbRating %></p>
-
+                        <p>Title:       <%= movie.Title %></p>
+                        <p>Year:        <%= movie.Year %></p>
+                        <p>Rated:       <%= movie.Rated %></p>
+                        <p>Genre:       <%= movie.Genre %></p>
+                        <p>Actors:      <%= movie.Actors %></p>
+                        <p>Language:    <%= movie.Language %></p>
+                        <p>Plot:        <%= movie.Plot %></p>
+                        <p>Awards:      <%= movie.Awards %></p>
+                        <p>Imdb:      <%= movie.imdbRating %></p>
                     </div>
                     <div class="p-2 col-12 col-md-6 text-center">
-                        <% if(data.Poster != 'N/A') { %>
-                            <img class="img-fluid" src="<%= data.Poster %>" alt="movie poster">
+                        <% if(movie.Poster != 'N/A') { %>
+                            <img class="img-fluid" src="<%= movie.Poster %>" alt="movie poster">
                         <%} else {%>
                             <!-- Show dummy image if there is no poster -->
                             <img class="img-fluid" src="https://picsum.photos/300/400" alt="poster N/A">
-                        <%} %>
+                        <% } %>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="row mb-3">
+        <div class="col-6 text-left">
+            <a href="https://www.imdb.com/title/<%= movie.imdbID %>" role="button" class="btn btn-warning">
+                Check on IMDB
+            </a>
+        </div>
+        <div class="col-6 text-right">
+            <a href="#" role="button" class="btn btn-info">
+                Add to Favourites
+            </a>
+        </div>
+    </div>
+
     <!-- Comment Section-->
     <div class="mt-1 row">
         <div class="col-12 mb-2">
-            <h6>Comment Section</h6>
+            <h4>Comment Section:</h4>
         </div>
+        <% if(mov != null){ %>
+            <% mov.comments.forEach(function(com){ %>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>
+                            <%= com.comment %> <strong style="color: black">-<%= com.username %></strong>
+                        </p>
+                    </div>
+                </div>
+            <% }); %>
+        <% } %>
         <div class="col-12 mb-3">
-            <!--  -->
-            <form id="comment-form">
-
-                <input type="hidden" name="movie_id" value="<%= data.imdbID %>" />
-
+            <!-- Comment Form -->
+            <h6>Give a comment</h6>
+            <form id="comment-form" action="/search/<%= movie.imdbID %>" method="post">
+                <input type="hidden" name="movie_id" value="<%= movie.imdbID %>" />
                 <div class="mb-2 form-group">
                     <input type="text" class="form-control" name="username" placeholder="Username">
                 </div>
                 <div class="mb-2 form-group">
                     <textarea class="form-control" name="comment" rows="3" col="5"
-                        placeholder="Write comment here"></textarea>
+                              placeholder="Write comment here"></textarea>
                 </div>
                 <div class="mb-2 form-group">
                     <button class="btn btn-primary" type="submit">Submit</button>
@@ -63,36 +85,27 @@
     </div>
 </div>
 
-
 <!-- Ajax to handle comments -->
-<script>
-    $("#comment-form").submit(function(e) {
-        e.preventDefault();
-        $form = $(this)[0];
-        // console.log($form);
-        // console.log(data);
-        $.ajax({
-            type: "POST",
-            url: "/do-comment",
-            data: {
-                'movie_id': $form.movie_id.value,
-                'username': $form.username.value,
-                'comment': $form.comment.value,
-            },
-            success: function (response) {
-                alert(response)
-            }
-        });
-        // return false;
-    })
-</script>
-
-<% if(data.comment) { %>
-<% data.comment.forEach(function(cooment){ %>
-<%= comment.username %>
-<%= comment.comment %>
-<% }) %>
-
-<% } %>
+<!--<script>-->
+<!--    $("#comment-form").submit(function(e) {-->
+<!--        e.preventDefault();-->
+<!--        $form = $(this)[0];-->
+<!--        // console.log($form);-->
+<!--        // console.log(data);-->
+<!--        $.ajax({-->
+<!--            type: "POST",-->
+<!--            url: "/"+$form.movie_id.value,-->
+<!--            data: {-->
+<!--                'movie_id': $form.movie_id.value,-->
+<!--                'username': $form.username.value,-->
+<!--                'comment': $form.comment.value,-->
+<!--            },-->
+<!--            success: function (response) {-->
+<!--                alert(response)-->
+<!--            }-->
+<!--        });-->
+<!--        // return false;-->
+<!--    })-->
+<!--</script>-->
 
 <%- include('footer') -%>

@@ -7,10 +7,10 @@
         </div>
         <!-- Search Form -->
         <div class="col-12">
-            <form action="/results" method="get">
+            <form action="/search" method="get">
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" name="search" placeholder="Type a movie name">
-                    <button class="btn btn-outline-primary btn-md" type="submit">Search</button>
+                    <button class="btn btn-primary btn-md" type="submit">Search</button>
                 </div>
             </form>
         </div>
@@ -19,7 +19,7 @@
 
 <!-- Trending -->
 <div class="container">
-    <h2 class="py-4" style="text-decoration: underline">Trending</h2>
+    <h3 class="py-4" style="text-decoration: underline">Trending</h3>
     <div class="row">
         <% trend.forEach((movie)=>{ %>
             <div class="col-sm-6 col-md-3 mb-3">
@@ -35,7 +35,7 @@
 
 <!-- Recommended -->
 <div class="container">
-    <h2 class="py-4" style="text-decoration: underline">Recommended By US</h2>
+    <h3 class="py-4" style="text-decoration: underline">Recommended By US</h3>
     <div class="row">
         <% recommend.forEach((movie)=>{ %>
             <div class="col-sm-6 col-md-3 mb-3">
